@@ -1,9 +1,9 @@
 # ReversibleStateKt
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/w2sv/KotlinUtils?include_prereleases)
-[![](https://jitpack.io/v/w2sv/KotlinUtils.svg)](https://jitpack.io/#w2sv/KotlinUtils)
-[![Build](https://github.com/w2sv/KotlinUtils/actions/workflows/workflow.yaml/badge.svg)](https://github.com/w2sv/KotlinUtils/actions/workflows/workflow.yaml)
-![GitHub](https://img.shields.io/github/license/w2sv/KotlinUtils)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/w2sv/ReversibleStateKt?include_prereleases)
+[![](https://jitpack.io/v/w2sv/ReversibleStateKt.svg)](https://jitpack.io/#w2sv/ReversibleStateKt)
+[![Build](https://github.com/w2sv/ReversibleStateKt/actions/workflows/workflow.yaml/badge.svg)](https://github.com/w2sv/ReversibleStateKt/actions/workflows/workflow.yaml)
+![GitHub](https://img.shields.io/github/license/w2sv/ReversibleStateKt)
 
 Reversible kotlin state holders.
 

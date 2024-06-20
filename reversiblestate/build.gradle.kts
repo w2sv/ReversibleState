@@ -24,7 +24,7 @@ publishing {
                     }
                 }
                 description.set("Reversible state holders.")
-                url.set("https://github.com/w2sv/KotlinUtils")
+                url.set("https://github.com/w2sv/ReversibleStateKt")
                 licenses {
                     license {
                         name.set("The Apache Software License, Version 2.0")
