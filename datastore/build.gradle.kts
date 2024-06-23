@@ -10,8 +10,8 @@ kotlin {
 publishing {
     publications {
         register<MavenPublication>("mavenJava") {
-            groupId = "com.w2sv.reversiblestate"
-            artifactId = "reversiblestate"
+            groupId = "com.w2sv.reversiblestate.datastore"
+            artifactId = "datastore"
             version = version.toString()
             afterEvaluate {
                 from(components["java"])
@@ -37,7 +37,8 @@ publishing {
 }
 
 dependencies {
-    implementation(libs.kotlinutils)
+    implementation(project(":reversiblestate"))
+    implementation(libs.datastoreflow)
     implementation(libs.kotlinx.coroutines)
 //    testImplementation(libs.junit)
 }
