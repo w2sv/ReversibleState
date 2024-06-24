@@ -5,7 +5,7 @@
 [![Build](https://github.com/w2sv/ReversibleStateKt/actions/workflows/workflow.yaml/badge.svg)](https://github.com/w2sv/ReversibleStateKt/actions/workflows/workflow.yaml)
 ![GitHub](https://img.shields.io/github/license/w2sv/ReversibleStateKt)
 
-Reversible kotlin state holders.
+ Reversible State Holders for JVM Kotlin.
 
 ## Installation with gradle & jitpack
 
