@@ -16,5 +16,5 @@ dependencyResolutionManagement {
     }
 }
 
-include(":reversiblestate")
-include(":datastore")
+include(":reversiblestate:core")
+include(":reversiblestate:datastore")

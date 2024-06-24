@@ -4,14 +4,14 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(libs.versions.java.get().toInt())
 }
 
 publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             groupId = "com.w2sv.reversiblestate"
-            artifactId = "reversiblestate"
+            artifactId = "core"
             version = version.toString()
             afterEvaluate {
                 from(components["java"])
