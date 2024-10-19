@@ -28,7 +28,8 @@ class ReversibleStateMap<K, V>(
     MutableMap<K, V> by map {
 
     /**
-     * Enables passing of [makeMap] function instead of having to invoke [appliedStateMap] twice, which would require a capturing of it as val or scope function receiver.
+     * Enables passing of [makeMap] function instead of having to invoke [appliedStateMap] twice, which would require a
+     * capturing of it as val or scope function receiver.
      */
     constructor(
         appliedStateMap: Map<K, StateFlow<V>>,

@@ -37,7 +37,7 @@ publishing {
 }
 
 dependencies {
-    implementation(libs.kotlinutils)
+    implementation(libs.w2sv.kotlinutils)
     implementation(libs.kotlinx.coroutines)
 //    testImplementation(libs.junit)
 }

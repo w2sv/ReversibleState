@@ -38,7 +38,7 @@ publishing {
 
 dependencies {
     implementation(project(":reversiblestate:core"))
-    implementation(libs.datastoreflow)
+    implementation(libs.w2sv.datastoreutils.datastoreflow)
     implementation(libs.kotlinx.coroutines)
 //    testImplementation(libs.junit)
 }
