@@ -4,11 +4,13 @@ package com.w2sv.reversiblestate
 
 import com.w2sv.kotlinutils.coroutines.collectFromFlow
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 class ReversibleStateFlow<T>(
     private val scope: CoroutineScope,
     val appliedStateFlow: StateFlow<T>,
