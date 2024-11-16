@@ -131,20 +131,20 @@ class ReversibleStateMap<K, V>(
     }
 }
 
-///**
+// /**
 // * @param map Delegate. Represents the non-persisted, temporary state.
 // * @param persistedStateFlowMap Representation of the persisted state. Holds the same keys as [map].
 // * @param syncState To save the temporary state, such that [persistedStateFlowMap] and [map] are in sync. Receives only [map] key-value pairs, whose values have changed with respect to the persisted state, held by [persistedStateFlowMap].
 // * @param onStateSynced Possibility to invoke a callback upon the temporary and the persisted states having been synced. Receives contrarily to [syncState] the entire map.
 // * @param onStateReset Callback invoked after state having been reset. Receives the reset map.
 // */
-//open class ReversibleStateFlowMap<K, V>(
+// open class ReversibleStateFlowMap<K, V>(
 //    private val map: Map<K, MutableStateFlow<V>>,
 //    private val persistedStateFlowMap: Map<K, StateFlow<V>>,
 //    private val syncState: suspend (Map<K, V>) -> Unit,
 //    private val onStateSynced: suspend (Map<K, StateFlow<V>>) -> Unit = {},
 //    private val onStateReset: (Map<K, StateFlow<V>>) -> Unit = {}
-//) : MappedReversibleState<K>(),
+// ) : MappedReversibleState<K>(),
 //    Map<K, MutableStateFlow<V>> by map {
 //
 //    companion object {
@@ -218,4 +218,4 @@ class ReversibleStateMap<K, V>(
 //        resetDissimilarityTrackers()
 //        onStateReset(this)
 //    }
-//}
+// }

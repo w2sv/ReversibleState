@@ -4,7 +4,6 @@ package com.w2sv.reversiblestate
 
 import com.w2sv.kotlinutils.coroutines.collectFromFlow
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +22,7 @@ class ReversibleStateFlow<T>(
     init {
         if (doAppliedStateBasedStateAlignmentPostInit) {
             scope.collectFromFlow(appliedStateFlow) {
-                value = it  // Triggers statesDissimilar update
+                value = it // Triggers statesDissimilar update
             }
         }
 
@@ -46,7 +45,7 @@ class ReversibleStateFlow<T>(
     override fun reset() {
         log { "Resetting $logIdentifier" }
 
-        value = appliedStateFlow.value  // Triggers statesDissimilar update
+        value = appliedStateFlow.value // Triggers statesDissimilar update
         onStateReset(value)
     }
 }
