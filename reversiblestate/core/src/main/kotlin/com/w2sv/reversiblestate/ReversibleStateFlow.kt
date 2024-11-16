@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 class ReversibleStateFlow<T>(
     private val scope: CoroutineScope,
     val appliedStateFlow: StateFlow<T>,

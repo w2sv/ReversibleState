@@ -3,8 +3,8 @@
 package com.w2sv.reversiblestate
 
 import com.w2sv.kotlinutils.coroutines.collectFromFlow
-import com.w2sv.kotlinutils.coroutines.mapValuesToCurrentValue
-import com.w2sv.kotlinutils.coroutines.stateInWithSynchronousInitial
+import com.w2sv.kotlinutils.coroutines.flow.mapValuesToCurrentValue
+import com.w2sv.kotlinutils.coroutines.flow.stateInWithBlockingInitial
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -58,7 +58,7 @@ class ReversibleStateMap<K, V>(
             appliedStateMapBasedStateAlignmentScope: CoroutineScope? = null
         ): ReversibleStateMap<K, V> {
             val appliedStateFlowMap = appliedFlowMap.mapValues { (_, v) ->
-                v.stateInWithSynchronousInitial(scope)
+                v.stateInWithBlockingInitial(scope)
             }
 
             return ReversibleStateMap(
