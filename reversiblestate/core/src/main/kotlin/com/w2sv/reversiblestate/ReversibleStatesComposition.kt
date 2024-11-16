@@ -36,7 +36,7 @@ open class ReversibleStatesComposition(
                         changedStateInstanceIndices.remove(i)
                     }
 
-                    _statesDissimilar.value = changedStateInstanceIndices.isNotEmpty()
+                    statesDissimilarMutable.value = changedStateInstanceIndices.isNotEmpty()
                 }
         }
     }

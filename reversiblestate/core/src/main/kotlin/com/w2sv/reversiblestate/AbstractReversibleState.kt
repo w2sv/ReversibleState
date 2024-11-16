@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.StateFlow
  */
 abstract class AbstractReversibleState : ReversibleState {
     override val statesDissimilar: StateFlow<Boolean>
-        get() = _statesDissimilar
-    protected val _statesDissimilar = MutableStateFlow(false)
+        get() = statesDissimilarMutable
+    protected val statesDissimilarMutable = MutableStateFlow(false)
 
     protected val logIdentifier: String
         get() = this::class.java.simpleName

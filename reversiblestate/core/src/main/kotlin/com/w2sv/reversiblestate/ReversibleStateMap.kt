@@ -87,16 +87,16 @@ class ReversibleStateMap<K, V>(
     // ==============
 
     /**
-     * Inherently updates [_dissimilarKeys] and [statesDissimilar].
+     * Inherently updates [dissimilarKeysMutable] and [statesDissimilar].
      */
     override fun put(key: K, value: V): V? =
         map.put(key, value)
             .also {
                 when (value == appliedStateMap.getValue(key).value) {
-                    true -> _dissimilarKeys.remove(key)
-                    false -> _dissimilarKeys.add(key)
+                    true -> dissimilarKeysMutable.remove(key)
+                    false -> dissimilarKeysMutable.add(key)
                 }
-                _statesDissimilar.value = _dissimilarKeys.isNotEmpty()
+                statesDissimilarMutable.value = dissimilarKeysMutable.isNotEmpty()
             }
 
     override fun putAll(from: Map<out K, V>) {
@@ -112,7 +112,7 @@ class ReversibleStateMap<K, V>(
     override suspend fun sync() {
         log { "Syncing $logIdentifier" }
 
-        syncState(_dissimilarKeys.associateWith { getValue(it) })
+        syncState(dissimilarKeysMutable.associateWith { getValue(it) })
         resetDissimilarityTrackers()
 
         onStateSynced(this)
@@ -121,7 +121,7 @@ class ReversibleStateMap<K, V>(
     override fun reset() {
         log { "Resetting $logIdentifier" }
 
-        _dissimilarKeys
+        dissimilarKeysMutable
             .forEach {
                 // Call map.put rather than this.put, to prevent unnecessary state updates
                 map[it] = appliedStateMap.getValue(it).value

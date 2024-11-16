@@ -5,13 +5,13 @@ abstract class MappedReversibleState<K, V> : AbstractReversibleState() {
     /**
      * Keys whose values have changed.
      */
-    protected val _dissimilarKeys = mutableSetOf<K>()
+    protected val dissimilarKeysMutable = mutableSetOf<K>()
 
     val dissimilarKeys: Set<K>
-        get() = _dissimilarKeys
+        get() = dissimilarKeysMutable
 
     protected fun resetDissimilarityTrackers() {
-        _dissimilarKeys.clear()
-        _statesDissimilar.value = false
+        dissimilarKeysMutable.clear()
+        statesDissimilarMutable.value = false
     }
 }

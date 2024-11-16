@@ -28,7 +28,7 @@ class ReversibleStateFlow<T>(
 
         // Update [statesDissimilar] whenever a new value is collected
         scope.collectFromFlow(this) {
-            _statesDissimilar.value = it != appliedStateFlow.value
+            statesDissimilarMutable.value = it != appliedStateFlow.value
         }
     }
 
@@ -36,7 +36,7 @@ class ReversibleStateFlow<T>(
         log { "Syncing $logIdentifier" }
 
         syncState(value)
-        _statesDissimilar.value = false
+        statesDissimilarMutable.value = false
     }
 
     fun launchSync(): Job =
