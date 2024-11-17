@@ -7,7 +7,7 @@ java = "17"
 android-gradle-plugin = "8.6.1"
 ktlint = "12.1.1"
 
-w2sv-datastoreutils = "0.0.5-rc1"
+w2sv-datastoreutils = "0.0.6-rc2"
 
 [libraries]
 w2sv-kotlinutils = "com.github.w2sv:KotlinUtils:0.1.5-rc2"
