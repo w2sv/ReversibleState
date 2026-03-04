@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
  * @param scope The [CoroutineScope] used for collecting flows and launching operations.
  * @param appliedState The persisted state that changes will be committed to or reverted from.
  * @param commitState A suspending function that applies the current editable state to the [appliedState].
- * @param onStateReversal Optional callback invoked when the editable state is reverted to the [appliedState].
+ * @param onStateRevert Optional callback invoked when the editable state is reverted to the [appliedState].
  * @param autoSyncWithAppliedState If true, the editable state will automatically track changes emitted by [appliedState] after
  * initialization.
  * @param log Optional logging function for debug output.
@@ -32,7 +32,7 @@ class ReversibleStateFlow<T>(
     private val scope: CoroutineScope,
     val appliedState: StateFlow<T>,
     private val commitState: suspend (T) -> Unit,
-    private val onStateReversal: (T) -> Unit = {},
+    private val onStateRevert: (T) -> Unit = {},
     autoSyncWithAppliedState: Boolean = true,
     private val log: (() -> String) -> Unit = {}
 ) : ReversibleState,
@@ -61,6 +61,6 @@ class ReversibleStateFlow<T>(
 
     override fun revert() {
         log { "Resetting $logIdentifier" }
-        onStateReversal(value)
+        onStateRevert(value)
     }
 }

@@ -3,35 +3,34 @@ package com.w2sv.reversiblestate.datastore
 import com.w2sv.datastoreutils.datastoreflow.DataStoreFlow
 import com.w2sv.datastoreutils.datastoreflow.DataStoreStateFlow
 import com.w2sv.reversiblestate.ReversibleStateFlow
-import com.w2sv.reversiblestate.reversibleStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 
 fun <T> DataStoreFlow<T>.reversibleStateFlow(
     scope: CoroutineScope,
     started: SharingStarted = SharingStarted.Eagerly,
-    onStateReset: (T) -> Unit = {},
-    doAppliedStateBasedStateAlignmentPostInit: Boolean = true,
+    onStateRevert: (T) -> Unit = {},
+    autoSyncWithAppliedState: Boolean = true,
     log: (() -> String) -> Unit = {}
 ): ReversibleStateFlow<T> =
-    stateIn(scope, started)
-        .reversibleStateFlow(
-            scope = scope,
-            onStateReset = onStateReset,
-            doAppliedStateBasedStateAlignmentPostInit = doAppliedStateBasedStateAlignmentPostInit,
-            log = log
-        )
+    stateIn(scope, started).reversibleStateFlow(
+        scope = scope,
+        onStateRevert = onStateRevert,
+        autoSyncWithAppliedState = autoSyncWithAppliedState,
+        log = log
+    )
 
 fun <T> DataStoreStateFlow<T>.reversibleStateFlow(
     scope: CoroutineScope,
-    onStateReset: (T) -> Unit = {},
-    doAppliedStateBasedStateAlignmentPostInit: Boolean = true,
+    onStateRevert: (T) -> Unit = {},
+    autoSyncWithAppliedState: Boolean = true,
     log: (() -> String) -> Unit = {}
 ): ReversibleStateFlow<T> =
-    reversibleStateFlow(
+    ReversibleStateFlow(
+        appliedState = this,
         scope = scope,
-        syncState = save,
-        onStateReset = onStateReset,
-        doAppliedStateBasedStateAlignmentPostInit = doAppliedStateBasedStateAlignmentPostInit,
+        commitState = save,
+        onStateRevert = onStateRevert,
+        autoSyncWithAppliedState = autoSyncWithAppliedState,
         log = log
     )
