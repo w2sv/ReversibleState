@@ -14,8 +14,8 @@ open class ReversibleStatesComposition(
     private val onStateSynced: suspend (ReversibleStates) -> Unit = {},
     private val onStateReset: (ReversibleStates) -> Unit = {},
     private val log: (() -> String) -> Unit = {}
-) : ReversibleStates by reversibleStates,
-    AbstractReversibleState() {
+) : AbstractReversibleState(),
+    ReversibleStates by reversibleStates {
 
     private val changedStateInstanceIndices = mutableSetOf<Int>()
     private val changedStateInstances
