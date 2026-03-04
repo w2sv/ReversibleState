@@ -30,7 +30,7 @@ fun <T> DataStoreStateFlow<T>.reversibleStateFlow(
         appliedState = this,
         scope = scope,
         commitState = save,
-        onStateRevert = onStateRevert,
+        onRevert = onStateRevert,
         autoSyncWithAppliedState = autoSyncWithAppliedState,
         log = log
     )
