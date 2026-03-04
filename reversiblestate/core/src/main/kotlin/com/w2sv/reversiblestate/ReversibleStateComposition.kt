@@ -40,6 +40,6 @@ open class ReversibleStateComposition(
         onStateReset(this)
     }
 
-    fun launchSync(): Job =
+    override fun launchSync(): Job =
         scope.launch { sync() }
 }

@@ -15,15 +15,15 @@ import kotlinx.coroutines.launch
 
 class ReversibleStateFlow<T>(
     private val scope: CoroutineScope,
-    val appliedStateFlow: StateFlow<T>,
+    val appliedState: StateFlow<T>,
     private val syncState: suspend (T) -> Unit,
     private val onStateReset: (T) -> Unit = {},
-    doAppliedStateBasedStateAlignmentPostInit: Boolean = true,
+    autoSyncWithAppliedState: Boolean = true,
     private val log: (() -> String) -> Unit = {}
 ) : ReversibleState,
-    MutableStateFlow<T> by MutableStateFlow(appliedStateFlow.value) {
+    MutableStateFlow<T> by MutableStateFlow(appliedState.value) {
 
-    override val statesDissimilar = combine(this, appliedStateFlow) { editable, applied -> editable != applied }
+    override val statesDissimilar = combine(this, appliedState) { editable, applied -> editable != applied }
         .stateIn(
             scope,
             SharingStarted.Eagerly,
@@ -31,8 +31,8 @@ class ReversibleStateFlow<T>(
         )
 
     init {
-        if (doAppliedStateBasedStateAlignmentPostInit) {
-            appliedStateFlow.collectOn(scope) { value = it }
+        if (autoSyncWithAppliedState) {
+            appliedState.collectOn(scope) { value = it }
         }
     }
 
@@ -41,7 +41,7 @@ class ReversibleStateFlow<T>(
         syncState(value)
     }
 
-    fun launchSync(): Job =
+    override fun launchSync(): Job =
         scope.launch { sync() }
 
     override fun reset() {
