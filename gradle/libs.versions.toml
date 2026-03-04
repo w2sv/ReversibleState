@@ -1,22 +1,25 @@
 [versions]
+# @keep
 minSdk = "21"
+# @keep
 compileSdk = "35"
-
-kotlin = "2.0.21"
+# @keep
 java = "17"
-android-gradle-plugin = "8.6.1"
-ktlint = "12.1.1"
-
-w2sv-datastoreutils = "0.0.6-rc2"
+agp = "9.1.0"
+kotlin = "2.3.10"
+ktlint = "14.0.1"
+versionCatalogUpdate = "1.1.0"
+w2sv-datastoreutils = "0.0.8"
 
 [libraries]
-w2sv-kotlinutils = "com.github.w2sv:KotlinUtils:0.1.5-rc2"
+kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
 w2sv-datastoreutils-datastoreflow = { module = "com.github.w2sv.DataStoreUtils:datastoreflow", version.ref = "w2sv-datastoreutils" }
 w2sv-datastoreutils-preferences = { module = "com.github.w2sv.DataStoreUtils:preferences", version.ref = "w2sv-datastoreutils" }
-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0"
+w2sv-kotlinutils = "com.github.w2sv:KotlinUtils:0.2.2"
 
 [plugins]
-android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
