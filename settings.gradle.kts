@@ -18,4 +18,3 @@ dependencyResolutionManagement {
 
 include(":reversiblestate:core")
 include(":reversiblestate:datastore")
-include(":reversiblestate:datastore-android")
