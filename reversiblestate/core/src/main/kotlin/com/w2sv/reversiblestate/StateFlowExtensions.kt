@@ -13,8 +13,8 @@ fun <T> StateFlow<T>.reversibleStateFlow(
     ReversibleStateFlow(
         scope = scope,
         appliedState = this,
-        syncState = syncState,
-        onStateReset = onStateReset,
+        commitState = syncState,
+        onStateReversal = onStateReset,
         autoSyncWithAppliedState = doAppliedStateBasedStateAlignmentPostInit,
         log = log
     )

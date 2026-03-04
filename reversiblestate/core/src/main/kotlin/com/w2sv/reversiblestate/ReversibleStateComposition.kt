@@ -9,37 +9,49 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-typealias ReversibleStates = List<ReversibleState>
-
-open class ReversibleStateComposition(
-    private val reversibleStates: ReversibleStates,
+/**
+ * A [ReversibleState] implementation that aggregates multiple child
+ * [ReversibleState] instances into a single composable state.
+ *
+ * Tracks whether any child states have pending changes via [isDirty], and
+ * provides [commit] and [revert] operations that propagate
+ * only to child states that are currently dirty.
+ *
+ * @param states The list of child [ReversibleState] instances to compose.
+ * @param scope The [CoroutineScope] used for combining flows and launching operations.
+ * @param onStateCommit Optional callback invoked after committing all dirty child states.
+ * @param onStateReversion Optional callback invoked after reverting all dirty child states.
+ * @param log Optional logging function for debug output.
+ */
+class ReversibleStateComposition(
+    private val states: List<ReversibleState>,
     private val scope: CoroutineScope,
-    private val onStateSynced: suspend (ReversibleStates) -> Unit = {},
-    private val onStateReset: (ReversibleStates) -> Unit = {},
+    private val onStateCommit: suspend (List<ReversibleState>) -> Unit = {},
+    private val onStateReversion: (List<ReversibleState>) -> Unit = {},
     private val log: (() -> String) -> Unit = {}
 ) : ReversibleState,
-    ReversibleStates by reversibleStates {
+    List<ReversibleState> by states {
 
-    override val statesDissimilar: StateFlow<Boolean> = combine(reversibleStates.map { it.statesDissimilar }) { flags -> flags.any { it } }
+    override val isDirty: StateFlow<Boolean> = combine(states.map { it.isDirty }) { flags -> flags.any { it } }
         .stateIn(scope, SharingStarted.Eagerly, false)
 
-    private val changedStateInstances: List<ReversibleState>
-        get() = reversibleStates.filter { it.statesDissimilar.value }
+    private val dirtyStates: List<ReversibleState>
+        get() = states.filter { it.isDirty.value }
 
-    override suspend fun sync() {
+    override suspend fun commit() {
         log { "Syncing $logIdentifier" }
 
-        changedStateInstances.forEach { it.sync() }
-        onStateSynced(this)
+        dirtyStates.forEach { it.commit() }
+        onStateCommit(this)
     }
 
-    override fun reset() {
+    override fun revert() {
         log { "Resetting $logIdentifier" }
 
-        changedStateInstances.forEach { it.reset() }
-        onStateReset(this)
+        dirtyStates.forEach { it.revert() }
+        onStateReversion(this)
     }
 
-    override fun launchSync(): Job =
-        scope.launch { sync() }
+    override fun launchCommit(): Job =
+        scope.launch { commit() }
 }
