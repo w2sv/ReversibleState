@@ -2,11 +2,15 @@
 
 package com.w2sv.reversiblestate
 
-import com.w2sv.kotlinutils.coroutines.collectFromFlow
+import com.w2sv.kotlinutils.coroutines.flow.collectOn
+import com.w2sv.reversiblestate.internal.logIdentifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ReversibleStateFlow<T>(
@@ -16,27 +20,25 @@ class ReversibleStateFlow<T>(
     private val onStateReset: (T) -> Unit = {},
     doAppliedStateBasedStateAlignmentPostInit: Boolean = true,
     private val log: (() -> String) -> Unit = {}
-) : AbstractReversibleState(),
+) : ReversibleState,
     MutableStateFlow<T> by MutableStateFlow(appliedStateFlow.value) {
+
+    override val statesDissimilar = combine(this, appliedStateFlow) { editable, applied -> editable != applied }
+        .stateIn(
+            scope,
+            SharingStarted.Eagerly,
+            false
+        )
 
     init {
         if (doAppliedStateBasedStateAlignmentPostInit) {
-            scope.collectFromFlow(appliedStateFlow) {
-                value = it // Triggers statesDissimilar update
-            }
-        }
-
-        // Update [statesDissimilar] whenever a new value is collected
-        scope.collectFromFlow(this) {
-            statesDissimilarMutable.value = it != appliedStateFlow.value
+            appliedStateFlow.collectOn(scope) { value = it }
         }
     }
 
     override suspend fun sync() {
         log { "Syncing $logIdentifier" }
-
         syncState(value)
-        statesDissimilarMutable.value = false
     }
 
     fun launchSync(): Job =
@@ -44,8 +46,6 @@ class ReversibleStateFlow<T>(
 
     override fun reset() {
         log { "Resetting $logIdentifier" }
-
-        value = appliedStateFlow.value // Triggers statesDissimilar update
         onStateReset(value)
     }
 }
