@@ -19,15 +19,15 @@ import kotlinx.coroutines.launch
  *
  * @param states The list of child [ReversibleState] instances to compose.
  * @param scope The [CoroutineScope] used for combining flows and launching operations.
- * @param onStateCommit Optional callback invoked after committing all dirty child states.
- * @param onStateRevert Optional callback invoked after reverting all dirty child states.
+ * @param onCommit Optional callback invoked after committing all dirty child states.
+ * @param onRevert Optional callback invoked after reverting all dirty child states.
  * @param log Optional logging function for debug output.
  */
 class ReversibleStateComposition(
     private val states: List<ReversibleState>,
     private val scope: CoroutineScope,
-    private val onStateCommit: suspend (List<ReversibleState>) -> Unit = {},
-    private val onStateRevert: (List<ReversibleState>) -> Unit = {},
+    private val onCommit: suspend (List<ReversibleState>) -> Unit = {},
+    private val onRevert: (List<ReversibleState>) -> Unit = {},
     private val log: (() -> String) -> Unit = {}
 ) : ReversibleState,
     List<ReversibleState> by states {
@@ -42,14 +42,14 @@ class ReversibleStateComposition(
         log { "Syncing $logIdentifier" }
 
         dirtyStates.forEach { it.commit() }
-        onStateCommit(this)
+        onCommit(this)
     }
 
     override fun revert() {
         log { "Resetting $logIdentifier" }
 
         dirtyStates.forEach { it.revert() }
-        onStateRevert(this)
+        onRevert(this)
     }
 
     override fun launchCommit(): Job =
