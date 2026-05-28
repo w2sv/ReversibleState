@@ -9,19 +9,15 @@ Reversible state holders for Kotlin Multiplatform.
 
 `ReversibleState` tracks an editable value alongside an applied value, exposes whether there are uncommitted changes, and provides commit/revert operations for pushing or discarding edits.
 
-## Targets
+## 🎯 Targets
 
 - JVM
 - iOS Arm64
 - iOS Simulator Arm64
 
-## Installation
+## 🚀 Installation
 
 ```kotlin
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation("io.github.w2sv:reversible-state:<version>")
 }
@@ -63,6 +59,6 @@ state.revert()
 
 Use `ReversibleStateComposition` to group several reversible states and commit or revert only the dirty children.
 
-## License
+## 📄 License
 
 Apache License 2.0. See [LICENSE](LICENSE).
