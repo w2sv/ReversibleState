@@ -1,16 +1,16 @@
 package com.w2sv.reversiblestate
 
 import app.cash.turbine.test
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import kotlin.test.Ignore
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Ignore
-import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReversibleStateFlowTest {
@@ -75,7 +75,7 @@ class ReversibleStateFlowTest {
             stateFlow.isDirty.test { assertFalse(awaitItem()) }
         }
 
-    @Ignore("Idk why dis shit dont work.")
+    @Ignore
     @Test
     fun `launchCommit launches commit asynchronously`() =
         runTest {

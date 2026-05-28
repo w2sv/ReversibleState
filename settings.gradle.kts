@@ -6,15 +6,16 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
+    includeBuild("build-logic")
 }
 
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven("https://jitpack.io")
     }
 }
 
-include(":reversiblestate:core")
-include(":reversiblestate:datastore")
+rootProject.name = "reversiblestate"
+
+include(":reversible-state")

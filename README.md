@@ -1,54 +1,68 @@
-# ReversibleStateKt
+# ReversibleState
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/w2sv/ReversibleStateKt?include_prereleases)
-[![](https://jitpack.io/v/w2sv/ReversibleStateKt.svg)](https://jitpack.io/#w2sv/ReversibleStateKt)
-[![Build](https://github.com/w2sv/ReversibleStateKt/actions/workflows/workflow.yaml/badge.svg)](https://github.com/w2sv/ReversibleStateKt/actions/workflows/workflow.yaml)
-![GitHub](https://img.shields.io/github/license/w2sv/ReversibleStateKt)
+![Maven Central Version](https://img.shields.io/maven-central/v/io.github.w2sv/reversible-state)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/w2sv/ReversibleState?include_prereleases)
+[![Build](https://github.com/w2sv/ReversibleState/actions/workflows/workflow.yaml/badge.svg)](https://github.com/w2sv/ReversibleState/actions/workflows/workflow.yaml)
+![GitHub](https://img.shields.io/github/license/w2sv/ReversibleState)
 
- Reversible State Holders for JVM Kotlin.
+Reversible state holders for Kotlin Multiplatform.
 
-## Installation with gradle & jitpack
+`ReversibleState` tracks an editable value alongside an applied value, exposes whether there are uncommitted changes, and provides commit/revert operations for pushing or discarding edits.
 
-Add the Jitpack repository in your build configuration:
+## Targets
+
+- JVM
+- iOS Arm64
+- iOS Simulator Arm64
+
+## Installation
 
 ```kotlin
 repositories {
-    maven("https://jitpack.io")
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.w2sv:reversible-state:<version>")
 }
 ```
 
-Add the dependency:
+For Kotlin Multiplatform projects:
 
 ```kotlin
-dependencies {
-    implementation("com.github.w2sv:ReversibleStateKt:version")
-    // Or get the latest snapshot of a certain branch:
-    implementation("com.github.w2sv:ReversibleStateKt:branchname-snapshot")
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("io.github.w2sv:reversible-state:<version>")
+        }
+    }
 }
 ```
+
+## Usage
+
+```kotlin
+val appliedState = MutableStateFlow("saved")
+
+val state = ReversibleStateFlow(
+    scope = scope,
+    appliedState = appliedState,
+    commitState = { appliedState.value = it }
+)
+
+state.value = "draft"
+
+check(state.isDirty.value)
+
+suspend fun save() {
+    state.commit()
+}
+
+state.revert()
+```
+
+Use `ReversibleStateComposition` to group several reversible states and commit or revert only the dirty children.
 
 ## License
 
-```
-MIT License
-
-Copyright (c) 2024 Janek Zangenberg
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+Apache License 2.0. See [LICENSE](LICENSE).

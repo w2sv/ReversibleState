@@ -6,6 +6,7 @@ import com.w2sv.kotlinutils.coroutines.flow.collectOn
 import com.w2sv.kotlinutils.coroutines.flow.combineStates
 import com.w2sv.reversiblestate.internal.logIdentifier
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalForInheritanceCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
  * initialization.
  * @param log Optional logging function for debug output.
  */
+@OptIn(ExperimentalForInheritanceCoroutinesApi::class)
 class ReversibleStateFlow<T>(
     private val scope: CoroutineScope,
     val appliedState: StateFlow<T>,
