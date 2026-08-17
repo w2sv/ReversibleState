@@ -2,7 +2,7 @@
 kotlin = "2.3.21"
 kotlinx-coroutines = "1.11.0"
 ktlint = "14.2.0"
-versionCatalogUpdate = "1.1.0"
+versionCatalogUpdate = "1.1.1"
 
 [libraries]
 cash-turbine = "app.cash.turbine:turbine:1.2.1"
